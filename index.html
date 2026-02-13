@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nous avons migré vers ExcluMe.com</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-base: #040414;
+      --bg-layer: #070726;
+      --card: rgba(9, 10, 34, 0.78);
+      --text: #f4f3ff;
+      --muted: #b8b5d8;
+      --border: rgba(255, 255, 255, 0.14);
+      --btn-start: #ff4dc4;
+      --btn-end: #6f57ff;
+      --btn-text: #ffffff;
+      --shadow: 0 18px 45px rgba(3, 5, 26, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(1200px 700px at 12% 18%, rgba(255, 64, 174, 0.24), transparent 60%),
+        radial-gradient(900px 600px at 84% 32%, rgba(101, 72, 255, 0.24), transparent 60%),
+        radial-gradient(800px 500px at 68% 88%, rgba(0, 175, 255, 0.16), transparent 62%),
+        linear-gradient(165deg, var(--bg-layer) 0%, var(--bg-base) 48%, #02020f 100%);
+      color: var(--text);
+      font: 16px/1.5 "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(60px);
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    body::before {
+      width: 280px;
+      height: 280px;
+      top: 12%;
+      left: 8%;
+      background: #ff35af;
+    }
+
+    body::after {
+      width: 360px;
+      height: 360px;
+      bottom: -70px;
+      right: 8%;
+      background: #1b9fff;
+    }
+
+    .card {
+      width: min(620px, 100%);
+      padding: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.25rem, 2.8vw, 1.8rem);
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .btn {
+      margin-top: 8px;
+      display: inline-block;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(120deg, var(--btn-start), var(--btn-end));
+      color: var(--btn-text);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(110, 88, 255, 0.35);
+      transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(255, 77, 196, 0.4);
+    }
+
+    .countdown {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      color: #cbc9e8;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Vous êtes sur notre ancien site.</h1>
+    <p>Nous avons migré vers <strong>ExcluMe.com</strong>.</p>
+    <a class="btn" id="redirectButton" href="https://exclume.com" rel="noopener">Aller sur ExcluMe.com</a>
+    <p class="countdown">
+      Redirection automatique dans <span id="seconds">10</span> secondes...
+    </p>
+    <noscript>
+      <p>JavaScript est désactivé. Cliquez sur le bouton pour continuer.</p>
+    </noscript>
+  </main>
+
+  <script>
+    (function () {
+      var REDIRECT_DELAY_SECONDS = 10;
+      var secondsLeft = REDIRECT_DELAY_SECONDS;
+      var targetUrl = "https://exclume.com";
+
+      var button = document.getElementById("redirectButton");
+      var secondsEl = document.getElementById("seconds");
+      var hasRedirected = false;
+
+      function redirectNow() {
+        if (hasRedirected) {
+          return;
+        }
+        hasRedirected = true;
+        window.location.replace(targetUrl);
+      }
+
+      button.href = targetUrl;
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        redirectNow();
+      });
+
+      var timer = window.setInterval(function () {
+        secondsLeft -= 1;
+        if (secondsLeft <= 0) {
+          window.clearInterval(timer);
+          redirectNow();
+          return;
+        }
+        secondsEl.textContent = String(secondsLeft);
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>
